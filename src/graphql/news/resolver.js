@@ -1,5 +1,5 @@
 export default {
   Query: {
-    demo: async (_, args, ctx, info) => true
+    demo: async (_, args, { Client }, info) => true
   }
 };

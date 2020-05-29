@@ -3,22 +3,24 @@ import { cleanObject } from "../utils";
 
 export default async ({ docs, Client }) => {
   try {
-    const docs = [];
     if (!docs.length) return;
 
     const dataset = [];
 
-    const bulkData = dataset.flatMap(doc => [
+    const body = dataset.flatMap(doc => [
       {
         index: {
-          _index: 'newdoc',
+          _index: "newdoc",
           _id: doc.id
         }
       },
       cleanObject(omit(doc, ["id"]))
     ]);
 
-    const { body: bulkResponse } = await Client.bulk({ refresh: true, body: bulkData });
+    const { body: bulkResponse } = await Client.bulk({
+      refresh: true,
+      body
+    });
 
     if (bulkResponse.errors) {
       const erroredDocuments = [];
